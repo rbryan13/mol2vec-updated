@@ -422,7 +422,7 @@ def sentences2vec(sentences, model, unseen=None):
     -------
     np.array
     """
-    keys = set(model.wv.vocab.keys())
+    keys = set(model.wv.index_to_key)
     vec = []
     if unseen:
         unseen_vec = model.wv.word_vec(unseen)
@@ -462,7 +462,7 @@ def featurize(in_file, out_file, model_path, r, uncommon=None):
     word2vec_model = word2vec.Word2Vec.load(model_path)
     if uncommon:
         try:
-            word2vec_model[uncommon]
+            word2vec_model.wv.word_vec(uncommon)
         except KeyError:
             raise KeyError('Selected word for uncommon: %s not in vocabulary' % uncommon)
 
